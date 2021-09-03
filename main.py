@@ -8,7 +8,6 @@ import pyautogui # pyautogui for moving the mouse
 from app import DisplayEntry
 
 if __name__ == '__main__':
-    
     display_text = assign_display_text(state, DisplayEntry) # Get day of the week and assign variable
 
     # Set up webdriver and open page

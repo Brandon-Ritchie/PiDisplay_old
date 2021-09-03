@@ -38,8 +38,8 @@ def update_crontab(database):
     cron.remove_all() # remove all previous cron jobs
 
     # Create command variables
-    on_command = 'echo \'on 0.0.0.0\' | cec-client -s -d 1 && echo "state = \'on\'" > /home/pi/Scripts/PiDisplay/state.py && python /home/pi/Scripts/PiDisplay/main.py >> /home/pi/Scripts/PiDisplay/pi_display.log 2>&1'
-    switch_command_1 = 'echo \'standby 0.0.0.0\' | cec-client -s -d 1 && echo "state = \'switch\'" > /home/pi/Scripts/PiDisplay/state.py && python /home/pi/Scripts/PiDisplay/main.py >> /home/pi/Scripts/PiDisplay/pi_display.log 2>&1'
+    on_command = 'echo \'on 0.0.0.0\' | cec-client -s -d 1 && echo "state = \'on\'" > /home/pi/Scripts/PiDisplay/state.py && DISPLAY=:0 python3 /home/pi/Scripts/PiDisplay/main.py >> /home/pi/Scripts/PiDisplay/pi_display.log 2>&1'
+    switch_command_1 = 'echo \'standby 0.0.0.0\' | cec-client -s -d 1 && echo "state = \'switch\'" > /home/pi/Scripts/PiDisplay/state.py && DISPLAY=:0 python3 /home/pi/Scripts/PiDisplay/main.py >> /home/pi/Scripts/PiDisplay/pi_display.log 2>&1'
     switch_command_2 = 'echo \'on 0.0.0.0\' | cec-client -s -d 1'
     off_command = 'echo \'standby 0.0.0.0\' | cec-client -s -d 1 && pkill chromium'
 

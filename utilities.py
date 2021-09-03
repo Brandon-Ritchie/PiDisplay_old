@@ -1,3 +1,7 @@
+from crontab import CronTab
+from forms import return_list_of_entries_as_lists
+import datetime
+
 def convert_time_to_list(time):
     if type(time) == 'None':
         return ['','']
@@ -26,99 +30,126 @@ def convert_time_list_to_string(list):
         temp_string += str(item)
     return temp_string
 
-def return_list_of_entries_as_lists(database):
-    def return_list_of_values_from_entry(entry):
-        value_list = []
-        value_list.append(entry.start_time)
-        value_list.append(entry.switch_time)
-        value_list.append(entry.end_time)
-        value_list.append(entry.start_link_text)
-        value_list.append(entry.switch_link_text)
-        return value_list
+def update_crontab(database):
+
+    some_list = return_list_of_entries_as_lists(database)
     
-    db_list = []
-    returned_list = []
+    cron = CronTab(user='britchie') # access crontab for user pi
+    cron.remove_all() # remove all previous cron jobs
+
+    # Create command variables
+    on_command = 'echo \'on 0.0.0.0\' | cec-client -s -d 1 && echo "state = \'on\'" > /home/pi/Scripts/PiDisplay/state.py && python /home/pi/Scripts/PiDisplay/main.py >> /home/pi/Scripts/PiDisplay/pi_display.log 2>&1'
+    switch_command_1 = 'echo \'standby 0.0.0.0\' | cec-client -s -d 1 && echo "state = \'switch\'" > /home/pi/Scripts/PiDisplay/state.py && python /home/pi/Scripts/PiDisplay/main.py >> /home/pi/Scripts/PiDisplay/pi_display.log 2>&1'
+    switch_command_2 = 'echo \'on 0.0.0.0\' | cec-client -s -d 1'
+    off_command = 'echo \'standby 0.0.0.0\' | cec-client -s -d 1 && pkill chromium'
+
+    # Create Jobs and Times
+    def add_cron_job(list):
+
+        # Set day or the week int and insert human readable comment in crontab
+        day_of_the_week_int = 0
+        if list[5] == 1:
+            comment = cron.new(command = " Sunday * * * * *")
+            comment.enable(False)
+            day_of_the_week_int = 0
+        elif list[5] == 2:
+            comment = cron.new(command = " Monday * * * * *")
+            comment.enable(False)
+            day_of_the_week_int = 1
+        elif list[5] == 3:
+            comment = cron.new(command = " Tuesday * * * * *")
+            comment.enable(False)
+            day_of_the_week_int = 2
+        elif list[5] == 4:
+            comment = cron.new(command = " Wednesday * * * * *")
+            comment.enable(False)
+            day_of_the_week_int = 3
+        elif list[5] == 5:
+            comment = cron.new(command = " Thursday * * * * *")
+            comment.enable(False)
+            day_of_the_week_int = 4
+        elif list[5] == 6:
+            comment = cron.new(command = " Friday * * * * *")
+            comment.enable(False)
+            day_of_the_week_int = 5
+        elif list[5] == 7:
+            comment = cron.new(command = " Saturday * * * * *")
+            comment.enable(False)
+            day_of_the_week_int = 6
+
+        # Outputting 'on' cron job
+        if (type(list[0]) != 'None' and list[0] != ''):
+            time_as_list = convert_time_to_list(list[0])
+            new_cron_job = cron.new(command = on_command)
+            new_cron_job.dow.on(day_of_the_week_int)
+            new_cron_job.hour.on(time_as_list[0])
+            new_cron_job.minute.on(time_as_list[1])
+
+        # Outputting 'switch' cron job
+        if (type(list[1]) != 'None' and list[1] != ''):
+            time_as_list = convert_time_to_list(list[1])
+            new_cron_job_1 = cron.new(command = switch_command_1)
+            new_cron_job_1.dow.on(day_of_the_week_int)
+            new_cron_job_1.hour.on(time_as_list[0])
+            new_cron_job_1.minute.on(time_as_list[1])
+
+            new_cron_job_2 = cron.new(command = switch_command_2)
+            new_cron_job_2.dow.on(day_of_the_week_int)
+            new_cron_job_2.hour.on(time_as_list[0])
+            new_cron_job_2.minute.on(int(time_as_list[1]) + 1)
+
+        # Oututting 'off' cron job
+        if (type(list[2]) != 'None' and list[2] != ''):
+            time_as_list = convert_time_to_list(list[2])
+            new_cron_job = cron.new(command = off_command)
+            new_cron_job.dow.on(day_of_the_week_int)
+            new_cron_job.hour.on(time_as_list[0])
+            new_cron_job.minute.on(time_as_list[1])
+
+    for list in some_list:
+        add_cron_job(list)
+
+    # Write cron jobs to file
+    cron.write()
+
+def print_with_time(string):
+    now = datetime.datetime.now()
+    print(now.strftime("[%m-%d-%y: %H:%M:%S] " + string))
+
+def assign_display_text(state, database):
+    day_of_the_week = datetime.datetime.today().weekday()
+    some_list = some_list = return_list_of_entries_as_lists(database)
     
-    for x in range(7):
-        db_list.append(database.query.get(x + 1))
-    
-    for entry in db_list:
-        returned_list.append(return_list_of_values_from_entry(entry))
-    
-    return returned_list
-
-def return_form_data_as_list_of_dict(form):
-    sunday_entry = {
-        'day_of_the_week': 'Sunday',
-        'start_time': form.sunday_start_time.data,
-        'switch_time': form.sunday_switch_time.data,
-        'end_time': form.sunday_end_time.data,
-        'start_link_text': form.sunday_start_text.data,
-        'switch_link_text': form.sunday_switch_text.data
-    }
-
-    monday_entry = {
-        'day_of_the_week': 'Monday',
-        'start_time': form.monday_start_time.data,
-        'switch_time': form.monday_switch_time.data,
-        'end_time': form.monday_end_time.data,
-        'start_link_text': form.monday_start_text.data,
-        'switch_link_text': form.monday_switch_text.data
-    }
-
-    tuesday_entry = {
-        'day_of_the_week': 'Sunday',
-        'start_time': form.tuesday_start_time.data,
-        'switch_time': form.tuesday_switch_time.data,
-        'end_time': form.tuesday_end_time.data,
-        'start_link_text': form.tuesday_start_text.data,
-        'switch_link_text': form.tuesday_switch_text.data
-    }
-
-    wednesday_entry = {
-        'day_of_the_week': 'Sunday',
-        'start_time': form.wednesday_start_time.data,
-        'switch_time': form.wednesday_switch_time.data,
-        'end_time': form.wednesday_end_time.data,
-        'start_link_text': form.wednesday_start_text.data,
-        'switch_link_text': form.wednesday_switch_text.data
-    }
-
-    thursday_entry = {
-        'day_of_the_week': 'Sunday',
-        'start_time': form.thursday_start_time.data,
-        'switch_time': form.thursday_switch_time.data,
-        'end_time': form.thursday_end_time.data,
-        'start_link_text': form.thursday_start_text.data,
-        'switch_link_text': form.thursday_switch_text.data
-    }
-
-    friday_entry = {
-        'day_of_the_week': 'Monday',
-        'start_time': form.friday_start_time.data,
-        'switch_time': form.friday_switch_time.data,
-        'end_time': form.friday_end_time.data,
-        'start_link_text': form.friday_start_text.data,
-        'switch_link_text': form.friday_switch_text.data
-    }
-
-    saturday_entry = {
-        'day_of_the_week': 'Monday',
-        'start_time': form.saturday_start_time.data,
-        'switch_time': form.saturday_switch_time.data,
-        'end_time': form.saturday_end_time.data,
-        'start_link_text': form.saturday_start_text.data,
-        'switch_link_text': form.saturday_switch_text.data
-    }
-
-
-    entry_list = [sunday_entry, monday_entry, tuesday_entry, wednesday_entry, thursday_entry, friday_entry, saturday_entry]
-    return entry_list
-
-def update_entry(database, entry, id):
-    updated_entry = database.query.get(id) # find entry to be updated
-    updated_entry.start_time = convert_time_list_to_string(convert_time_to_list(entry['start_time'])) # update start time after converting to proper format
-    updated_entry.switch_time = convert_time_list_to_string(convert_time_to_list(entry['switch_time'])) # update switch time after converting to proper format
-    updated_entry.end_time = convert_time_list_to_string(convert_time_to_list(entry['end_time'])) # update end time after converting to proper format
-    updated_entry.start_link_text = entry['start_link_text'] # update start link text
-    updated_entry.switch_link_text = entry['switch_link_text'] # update switch link text
+    display_text = ''
+    if state == 'on':
+        if day_of_the_week == 0:
+            display_text = some_list[1][3]
+        elif day_of_the_week == 1:
+            display_text = some_list[2][3]
+        elif day_of_the_week == 2:
+            display_text = some_list[3][3]
+        elif day_of_the_week == 3:
+            display_text = some_list[4][3]
+        elif day_of_the_week == 4:
+            display_text = some_list[5][3]
+        elif day_of_the_week == 5:
+            display_text = some_list[6][3]
+        elif day_of_the_week == 6:
+            display_text = some_list[0][3]
+    if state == 'switch':
+        if day_of_the_week == 0:
+            display_text = some_list[1][4]
+        elif day_of_the_week == 1:
+            display_text = some_list[2][4]
+        elif day_of_the_week == 2:
+            display_text = some_list[3][4]
+        elif day_of_the_week == 3:
+            display_text = some_list[4][4]
+        elif day_of_the_week == 4:
+            display_text = some_list[5][4]
+        elif day_of_the_week == 5:
+            display_text = some_list[6][4]
+        elif day_of_the_week == 6:
+            display_text = some_list[0][4]
+    print_with_time('Display link text is: ' + display_text)
+    return display_text

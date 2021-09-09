@@ -76,6 +76,7 @@ def home():
     except Exception as e:
         flash('There was an error: ')
         flash('you are refreshing too fast. Please try again in a moment')
+        db.session.rollback()
 
     return render_template('home.html',
         template_form = crontab_form,

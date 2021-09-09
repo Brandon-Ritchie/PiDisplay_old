@@ -64,16 +64,16 @@ def home():
                         update_display_entry(models.DisplayEntry, entry) # update each entry in the DisplayEntry table with the entries from created dictionaries
                     db.session.commit()
                     update_crontab(models.DisplayEntry)
+                    db.session.close_all()
                     flash('The display has been updated.')
                 except Exception as e:
                     db.session.rollback()
                     flash('There was an error')
                     flash(e)
-                finally:
-                    db.session.close_all()
+                    
             if crontab_form.cancel.data:
                 db.session.rollback()
-                db.session.close()
+                db.session.close_all()
     except Exception as e:
         flash('There was an error: ')
         flash(e)

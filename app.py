@@ -7,12 +7,7 @@ from flask import Flask, flash, render_template, request, redirect
 from flask.helpers import url_for
 from flask_login import LoginManager, login_required, login_user
 from flask_sqlalchemy import SQLAlchemy # for database manipulation
-from utilities import update_crontab # for updating crotab
 
-
-"""
-Database and app configuration
-"""
 
 app = Flask(__name__) # application instance
 app.config['SECRET_KEY'] = 'Un295VTH7BFLp6U4eVS6ZXGA' # secret key that I don't think I implimented
@@ -24,7 +19,7 @@ app_login_manager.init_app(app)
 
 import models
 import forms
-
+from utilities import update_crontab # for updating crotab
 """
 Routes
 """

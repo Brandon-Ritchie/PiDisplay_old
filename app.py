@@ -53,7 +53,7 @@ def index():
 @app.route('/home', methods = ["GET", "POST"])
 @login_required
 def home():
-    db.session.rollback()
+    db.session.close_all()
     crontab_form = CrontabForm() # form instance
     
     try:

@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
+from app import db
 
 class CrontabForm(FlaskForm):
     # Create all TimeField variables
@@ -203,7 +204,7 @@ def return_form_data_as_list_of_dict(form):
     return entry_list
 
 def update_display_entry(database, entry):
-    updated_entry = database.query.get(entry['id']) # find entry to be updated
+    updated_entry = db.session.query(database).get(entry['id']) # find entry to be updated
     updated_entry.start_time = entry['start_time'] # update start time
     updated_entry.switch_time = entry['switch_time'] # update switch time
     updated_entry.end_time = entry['end_time'] # update end time

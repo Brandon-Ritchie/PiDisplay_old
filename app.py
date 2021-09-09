@@ -6,7 +6,6 @@ from logging import error
 from flask import Flask, flash, render_template, request, redirect
 from flask.helpers import url_for
 from flask_login import LoginManager, login_required, login_user
-from forms import CrontabForm, LoginForm, update_crontab_form_defaults, return_list_of_entries_as_lists, return_form_data_as_list_of_dict, update_display_entry # for form manipulation
 from flask_sqlalchemy import SQLAlchemy # for database manipulation
 from utilities import update_crontab # for updating crotab
 
@@ -24,6 +23,7 @@ app_login_manager = LoginManager(app)
 app_login_manager.init_app(app)
 
 import models
+import forms
 
 """
 Routes
@@ -39,7 +39,7 @@ def unauthorized():
 
 @app.route('/', methods = ["GET", "POST"])
 def index():
-    login_form = LoginForm()
+    login_form = forms.LoginForm()
     if request.method == 'POST':
         user = models.User.query.filter_by(username=login_form.user.data).first()
         if user:
@@ -53,18 +53,17 @@ def index():
 @app.route('/home', methods = ["GET", "POST"])
 @login_required
 def home():
-    crontab_form = CrontabForm() # form instance
+    crontab_form = forms.CrontabForm() # form instance
     
     try:
         if 'sunday_start_time' in request.form:
             if crontab_form.submit.data:
-                entry_list = return_form_data_as_list_of_dict(crontab_form) # created as dictionaries of the form data making it easier to deal with
+                entry_list = forms.return_form_data_as_list_of_dict(crontab_form) # created as dictionaries of the form data making it easier to deal with
                 try:
                     for entry in entry_list:
-                        update_display_entry(models.DisplayEntry, entry) # update each entry in the DisplayEntry table with the entries from created dictionaries
+                        forms.update_display_entry(models.DisplayEntry, entry) # update each entry in the DisplayEntry table with the entries from created dictionaries
                     db.session.commit()
                     update_crontab(models.DisplayEntry)
-                    db.session.close()
                     flash('The display has been updated.')
                 except Exception as e:
                     db.session.rollback()
@@ -73,7 +72,6 @@ def home():
                     
             if crontab_form.cancel.data:
                 db.session.rollback()
-                db.session.close()
 
     except Exception as e:
         flash('There was an error: ')

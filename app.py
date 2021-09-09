@@ -73,10 +73,12 @@ def home():
 
         if crontab_form.cancel.data:
             db.session.rollback()
-
-    some_list = return_list_of_entries_as_lists(models.DisplayEntry) # create list for updating crontab form defaults
-    update_crontab_form_defaults(crontab_form, some_list) # update crontab form defaults AFTER the POST request
-    
+    try:
+        some_list = return_list_of_entries_as_lists(models.DisplayEntry) # create list for updating crontab form defaults
+        update_crontab_form_defaults(crontab_form, some_list) # update crontab form defaults AFTER the POST request
+    except Exception as e:
+        flash('There was an error.')
+        flash(e)
     return render_template('home.html',
         template_form = crontab_form,
     )

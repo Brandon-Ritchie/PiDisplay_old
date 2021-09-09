@@ -60,10 +60,9 @@ def home():
         if 'sunday_start_time' in request.form:
             if crontab_form.submit.data:
                 entry_list = return_form_data_as_list_of_dict(crontab_form) # created as dictionaries of the form data making it easier to deal with
-
-                for entry in entry_list:
-                    update_display_entry(models.DisplayEntry, entry) # update each entry in the DisplayEntry table with the entries from created dictionaries
                 try:
+                    for entry in entry_list:
+                        update_display_entry(models.DisplayEntry, entry) # update each entry in the DisplayEntry table with the entries from created dictionaries
                     db.session.commit()
                     flash('The display has been updated.')
                 except Exception as e:

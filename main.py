@@ -5,7 +5,7 @@ from utilities import print_with_time, assign_display_text # Utilities for Displ
 from state import state # importing state to tell whether to turn on or switch
 from selenium import webdriver # selenium for Web Driving
 import pyautogui # pyautogui for moving the mouse
-from app import DisplayEntry
+from models import DisplayEntry
 
 if __name__ == '__main__':
     display_text = assign_display_text(state, DisplayEntry) # Get day of the week and assign variable

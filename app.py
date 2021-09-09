@@ -70,7 +70,7 @@ def home():
                     flash('There was an error')
                     flash(e)
                 finally:
-                    db.session.close()
+                    db.session.close_all_sessions()
             if crontab_form.cancel.data:
                 db.session.rollback()
                 db.session.close()

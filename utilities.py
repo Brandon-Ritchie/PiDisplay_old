@@ -1,5 +1,5 @@
 from crontab import CronTab
-from forms import return_list_of_entries_as_lists
+import forms
 import datetime
 
 def convert_time_to_list(time):
@@ -32,7 +32,7 @@ def convert_time_list_to_string(list):
 
 def update_crontab(database):
 
-    some_list = return_list_of_entries_as_lists(database)
+    some_list = forms.return_list_of_entries_as_lists(database)
     
     cron = CronTab(user='pi') # access crontab for user pi
     cron.remove_all() # remove all previous cron jobs
@@ -118,7 +118,7 @@ def print_with_time(string):
 
 def assign_display_text(state, database):
     day_of_the_week = datetime.datetime.today().weekday()
-    some_list = some_list = return_list_of_entries_as_lists(database)
+    some_list = some_list = forms.return_list_of_entries_as_lists(database)
     
     display_text = ''
     if state == 'on':

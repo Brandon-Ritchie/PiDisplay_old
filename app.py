@@ -64,16 +64,19 @@ def home():
                         update_display_entry(models.DisplayEntry, entry) # update each entry in the DisplayEntry table with the entries from created dictionaries
                     db.session.commit()
                     update_crontab(models.DisplayEntry)
-                    db.session.close_all()
                     flash('The display has been updated.')
                 except Exception as e:
                     db.session.rollback()
                     flash('There was an error')
+                    flash(e)
+                finally:
+                    db.session.close()
             if crontab_form.cancel.data:
                 db.session.rollback()
+                db.session.close()
     except Exception as e:
         flash('There was an error: ')
-        flash('you are refreshing too fast. Please try again in a moment')
+        flash(e)
 
     return render_template('home.html',
         template_form = crontab_form,

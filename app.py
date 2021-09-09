@@ -53,32 +53,30 @@ def index():
 @app.route('/home', methods = ["GET", "POST"])
 @login_required
 def home():
-    
     crontab_form = CrontabForm() # form instance
     
-    if 'sunday_start_time' in request.form:
-        if crontab_form.submit.data:
-            entry_list = return_form_data_as_list_of_dict(crontab_form) # created as dictionaries of the form data making it easier to deal with
-
-            for entry in entry_list:
-                update_display_entry(models.DisplayEntry, entry) # update each entry in the DisplayEntry table with the entries from created dictionaries
-            try:
-                db.session.commit()
-                flash('The display has been updated.')
-            except Exception as e:
-                db.session.rollback()
-                flash('There was an error')
-
-            update_crontab(models.DisplayEntry)
-
-        if crontab_form.cancel.data:
-            db.session.rollback()
     try:
-        some_list = return_list_of_entries_as_lists(models.DisplayEntry) # create list for updating crontab form defaults
-        update_crontab_form_defaults(crontab_form, some_list) # update crontab form defaults AFTER the POST request
+        if 'sunday_start_time' in request.form:
+            if crontab_form.submit.data:
+                entry_list = return_form_data_as_list_of_dict(crontab_form) # created as dictionaries of the form data making it easier to deal with
+
+                for entry in entry_list:
+                    update_display_entry(models.DisplayEntry, entry) # update each entry in the DisplayEntry table with the entries from created dictionaries
+                try:
+                    db.session.commit()
+                    flash('The display has been updated.')
+                except Exception as e:
+                    db.session.rollback()
+                    flash('There was an error')
+
+                update_crontab(models.DisplayEntry)
+
+            if crontab_form.cancel.data:
+                db.session.rollback()
     except Exception as e:
-        flash('There was an error.')
+        flash('There was an error:')
         flash(e)
+
     return render_template('home.html',
         template_form = crontab_form,
     )

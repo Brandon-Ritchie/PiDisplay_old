@@ -34,7 +34,7 @@ def update_crontab(database):
 
     some_list = forms.return_list_of_entries_as_lists(database)
     
-    cron = CronTab(user='britchie') # access crontab for user pi
+    cron = CronTab(user='pi') # access crontab for user pi
     cron.remove_all() # remove all previous cron jobs
 
     # Create command variables

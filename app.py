@@ -66,7 +66,8 @@ def home():
                 except Exception as e:
                     db.session.rollback()
                     flash('There was an error')
-                    # flash(e)
+                    flash(e)
+                    print(e)
                     
             if crontab_form.cancel.data:
                 db.session.rollback()
@@ -74,6 +75,7 @@ def home():
     except Exception as e:
         flash('There was an error: ')
         flash(e)
+        print(e)
 
     display_entry_list = db.session.query(models.DisplayEntry).order_by(models.DisplayEntry.id).all()
     display_entry_list_as_lists = forms.return_list_of_entries_as_lists(display_entry_list)

@@ -106,7 +106,7 @@ def update_crontab_form_defaults(form, list):
 
     form.process()
 
-def return_list_of_entries_as_lists(database):
+def return_list_of_entries_as_lists(db_list):
     def return_list_of_values_from_entry(entry):
         value_list = [] # create empty list to append entry data to
         value_list.append(entry.start_time)
@@ -117,11 +117,7 @@ def return_list_of_entries_as_lists(database):
         value_list.append(entry.id)
         return value_list
     
-    db_list = []
     returned_list = []
-    
-    for x in range(7): # loop through database entries, ?? might be able to do this with database.query.all() ??
-        db_list.append(database.query.get(x + 1))
     
     for entry in db_list: # convert database entries into lists for updating default values
         returned_list.append(return_list_of_values_from_entry(entry))

@@ -52,9 +52,8 @@ def index():
 def home():
     crontab_form = forms.CrontabForm() # form instance
     
+
     try:
-        display_entry_list = forms.return_list_of_entries_as_lists(models.DisplayEntry)
-        forms.update_crontab_form_defaults(crontab_form, display_entry_list)
         if 'sunday_start_time' in request.form:
             if crontab_form.submit.data:
                 entry_list = forms.return_form_data_as_list_of_dict(crontab_form) # created as dictionaries of the form data making it easier to deal with
@@ -62,12 +61,12 @@ def home():
                     for entry in entry_list:
                         forms.update_display_entry(models.DisplayEntry, entry) # update each entry in the DisplayEntry table with the entries from created dictionaries
                     db.session.commit()
-                    update_crontab(models.DisplayEntry)
+                    update_crontab(db.session.query(models.DisplayEntry).order_by(models.DisplayEntry.id).all())
                     flash('The display has been updated.')
                 except Exception as e:
                     db.session.rollback()
                     flash('There was an error')
-                    flash(e)
+                    # flash(e)
                     
             if crontab_form.cancel.data:
                 db.session.rollback()
@@ -75,6 +74,10 @@ def home():
     except Exception as e:
         flash('There was an error: ')
         flash(e)
+
+    display_entry_list = db.session.query(models.DisplayEntry).order_by(models.DisplayEntry.id).all()
+    display_entry_list_as_lists = forms.return_list_of_entries_as_lists(display_entry_list)
+    forms.update_crontab_form_defaults(crontab_form, display_entry_list_as_lists)
 
     return render_template('home.html',
         template_form = crontab_form,

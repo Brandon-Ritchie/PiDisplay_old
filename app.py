@@ -51,7 +51,7 @@ def home():
     crontab_form = forms.CrontabForm() # form instance
     
     try:
-        display_entry_list = models.return_list_of_entries_as_list(models.DisplayEntry)
+        display_entry_list = forms.return_list_of_entries_as_list(models.DisplayEntry)
         forms.update_crontab_form_defaults(crontab_form, display_entry_list)
         if 'sunday_start_time' in request.form:
             if crontab_form.submit.data:

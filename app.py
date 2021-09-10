@@ -26,7 +26,7 @@ Routes
 
 @app_login_manager.user_loader
 def load_user(id):
-  return models.User.query.get(int(id))
+  return db.session.query(models.User).get(int(id))
 
 @app_login_manager.unauthorized_handler
 def unauthorized():
@@ -36,7 +36,7 @@ def unauthorized():
 def index():
     login_form = forms.LoginForm()
     if request.method == 'POST':
-        user = models.User.query.filter_by(username=login_form.user.data).first()
+        user = db.session.query(models.User).filter_by(username=login_form.user.data).first()
         if user:
             if user.check_password(login_form.password.data):
                 login_user(user)

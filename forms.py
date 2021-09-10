@@ -199,13 +199,13 @@ def return_form_data_as_list_of_dict(form):
     entry_list = [sunday_entry, monday_entry, tuesday_entry, wednesday_entry, thursday_entry, friday_entry, saturday_entry]
     return entry_list
 
-def update_display_entry(database, entry):
-    updated_entry = db.session.query(database).get(entry['id']) # find entry to be updated
-    updated_entry.start_time = entry['start_time'] # update start time
-    updated_entry.switch_time = entry['switch_time'] # update switch time
-    updated_entry.end_time = entry['end_time'] # update end time
-    updated_entry.start_link_text = entry['start_link_text'] # update start link text
-    updated_entry.switch_link_text = entry['switch_link_text'] # update switch link text
+def update_display_entry(db_list, entry):
+    for item in db_list:
+        item.start_time = entry['start_time'] # update start time
+        item.switch_time = entry['switch_time'] # update switch time
+        item.end_time = entry['end_time'] # update end time
+        item.start_link_text = entry['start_link_text'] # update start link text
+        item.switch_link_text = entry['switch_link_text'] # update switch link text
 
 class LoginForm(FlaskForm):
     user = StringField('Username', validators=[DataRequired()])

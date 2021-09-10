@@ -59,7 +59,7 @@ def home():
                 entry_list = forms.return_form_data_as_list_of_dict(crontab_form) # created as dictionaries of the form data making it easier to deal with
                 try:
                     for entry in entry_list:
-                        forms.update_display_entry(models.DisplayEntry, entry) # update each entry in the DisplayEntry table with the entries from created dictionaries
+                        forms.update_display_entry(db.session.query(models.DisplayEntry).order_by(models.DisplayEntry.id).all(), entry) # update each entry in the DisplayEntry table with the entries from created dictionaries
                     db.session.commit()
                     update_crontab(db.session.query(models.DisplayEntry).order_by(models.DisplayEntry.id).all())
                     flash('The display has been updated.')

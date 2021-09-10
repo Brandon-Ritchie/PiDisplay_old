@@ -5,7 +5,7 @@ Imports
 from logging import error
 from flask import Flask, flash, render_template, request, redirect
 from flask.helpers import url_for
-from flask_login import LoginManager, login_required, login_user
+from flask_login import LoginManager, login_required, login_user, current_user
 from flask_sqlalchemy import SQLAlchemy # for database manipulation
 
 
@@ -34,6 +34,8 @@ def unauthorized():
 
 @app.route('/', methods = ["GET", "POST"])
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     login_form = forms.LoginForm()
     if request.method == 'POST':
         user = db.session.query(models.User).filter_by(username=login_form.user.data).first()

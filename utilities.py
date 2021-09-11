@@ -116,9 +116,9 @@ def print_with_time(string):
     now = datetime.datetime.now()
     print(now.strftime("[%m-%d-%y: %H:%M:%S] " + string))
 
-def assign_display_text(state, database):
+def assign_display_text(state, db_list):
     day_of_the_week = datetime.datetime.today().weekday()
-    some_list = some_list = forms.return_list_of_entries_as_lists(database)
+    some_list = some_list = forms.return_list_of_entries_as_lists(db_list)
     
     display_text = ''
     if state == 'on':

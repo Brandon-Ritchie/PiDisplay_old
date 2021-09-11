@@ -6,9 +6,10 @@ from state import state # importing state to tell whether to turn on or switch
 from selenium import webdriver # selenium for Web Driving
 import pyautogui # pyautogui for moving the mouse
 from models import DisplayEntry
+from app import db
 
 if __name__ == '__main__':
-    display_text = assign_display_text(state, DisplayEntry) # Get day of the week and assign variable
+    display_text = assign_display_text(state, db.session.query(DisplayEntry).order_by(DisplayEntry.id).all()) # Get day of the week and assign variable
 
     # Set up webdriver and open page
     print_with_time('Setting up browser')

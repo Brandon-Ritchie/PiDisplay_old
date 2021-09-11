@@ -8,7 +8,6 @@ from flask.helpers import url_for
 from flask_login import LoginManager, login_required, login_user, current_user
 from flask_sqlalchemy import SQLAlchemy # for database manipulation
 
-
 app = Flask(__name__) # application instance
 app.config['SECRET_KEY'] = 'Un295VTH7BFLp6U4eVS6ZXGA' # secret key that I don't think I implimented
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///display.db' # path to database and database name

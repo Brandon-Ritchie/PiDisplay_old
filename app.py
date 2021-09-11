@@ -18,7 +18,7 @@ app_login_manager.init_app(app)
 
 import models
 import forms
-from utilities import update_crontab # for updating crotab
+import utilities # for updating crotab
 """
 Routes
 """
@@ -62,7 +62,7 @@ def home():
                         forms.update_display_entry(db.session.query(models.DisplayEntry).order_by(models.DisplayEntry.id).all(), entry, i) # update each entry in the DisplayEntry table with the entries from created dictionaries
                         i += 1
                     db.session.commit()
-                    update_crontab(db.session.query(models.DisplayEntry).order_by(models.DisplayEntry.id).all())
+                    utilities.update_crontab(db.session.query(models.DisplayEntry).order_by(models.DisplayEntry.id).all())
                     flash('The display has been updated.')
                 except Exception as e:
                     db.session.rollback()

@@ -1,37 +1,39 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
+from wtforms.fields.html5 import TimeField
 from wtforms.validators import DataRequired
 from app import db
+import datetime
 
 class CrontabForm(FlaskForm):
     # Create all TimeField variables
-    sunday_start_time = StringField('Sunday Start Time')
-    sunday_switch_time = StringField('Sunday Switch Time')
-    sunday_end_time = StringField('Sunday End Time')
+    sunday_start_time = TimeField('Sunday Start Time', format='%H:%M')
+    sunday_switch_time = TimeField('Sunday Switch Time', format='%H:%M')
+    sunday_end_time = TimeField('Sunday End Time', format='%H:%M')
 
-    monday_start_time = StringField('Monday Start Time')
-    monday_switch_time = StringField('Monday Switch Time')
-    monday_end_time = StringField('Monday End Time')
+    monday_start_time = TimeField('Monday Start Time', format='%H:%M')
+    monday_switch_time = TimeField('Monday Switch Time', format='%H:%M')
+    monday_end_time = TimeField('Monday End Time', format='%H:%M')
 
-    tuesday_start_time = StringField('Tuesday Start Time')
-    tuesday_switch_time = StringField('Tuesday Switch Time')
-    tuesday_end_time = StringField('Tuesday End Time')
+    tuesday_start_time = TimeField('Tuesday Start Time', format='%H:%M')
+    tuesday_switch_time = TimeField('Tuesday Switch Time', format='%H:%M')
+    tuesday_end_time = TimeField('Tuesday End Time', format='%H:%M')
 
-    wednesday_start_time = StringField('Wednesday Start Time')
-    wednesday_switch_time = StringField('Wednesday Switch Time')
-    wednesday_end_time = StringField('Wednesday End Time')
+    wednesday_start_time = TimeField('Wednesday Start Time', format='%H:%M')
+    wednesday_switch_time = TimeField('Wednesday Switch Time', format='%H:%M')
+    wednesday_end_time = TimeField('Wednesday End Time', format='%H:%M')
 
-    thursday_start_time = StringField('Thursday Start Time')
-    thursday_switch_time = StringField('Thursday Switch Time')
-    thursday_end_time = StringField('Thursday End Time')
+    thursday_start_time = TimeField('Thursday Start Time', format='%H:%M')
+    thursday_switch_time = TimeField('Thursday Switch Time', format='%H:%M')
+    thursday_end_time = TimeField('Thursday End Time', format='%H:%M')
 
-    friday_start_time = StringField('Friday Start Time')
-    friday_switch_time = StringField('Friday Switch Time')
-    friday_end_time = StringField('Friday End Time')
+    friday_start_time = TimeField('Friday Start Time', format='%H:%M')
+    friday_switch_time = TimeField('Friday Switch Time', format='%H:%M')
+    friday_end_time = TimeField('Friday End Time', format='%H:%M')
 
-    saturday_start_time = StringField('Saturday Start Time')
-    saturday_switch_time = StringField('Saturday Switch Time')
-    saturday_end_time = StringField('Saturday End Time')
+    saturday_start_time = TimeField('Saturday Start Time', format='%H:%M')
+    saturday_switch_time = TimeField('Saturday Switch Time', format='%H:%M')
+    saturday_end_time = TimeField('Saturday End Time', format='%H:%M')
     
     # Create link text fields
     sunday_start_text = StringField('Sunday Start Text')
@@ -62,45 +64,51 @@ class CrontabForm(FlaskForm):
     submit = SubmitField('Update')
 
 def update_crontab_form_defaults(form, list):
-    form.sunday_start_time.default = list[0][0]
-    form.sunday_switch_time.default = list[0][1]
-    form.sunday_end_time.default = list[0][2]
+    def set_time_default(form, time):
+        if type(time) is str:
+            form.default = datetime.datetime.strptime(time, '%H:%M').time()
+        else:
+            form.default = time
+    
+    set_time_default(form.sunday_start_time, list[0][0])
+    set_time_default(form.sunday_switch_time, list[0][1])
+    set_time_default(form.sunday_end_time, list[0][2])
     form.sunday_start_text.default = list[0][3]
     form.sunday_switch_text.default = list[0][4]
 
-    form.monday_start_time.default = list[1][0]
-    form.monday_switch_time.default = list[1][1]
-    form.monday_end_time.default = list[1][2]
+    set_time_default(form.monday_start_time, list[1][0])
+    set_time_default(form.monday_start_time, list[1][1])
+    set_time_default(form.monday_start_time, list[1][2])
     form.monday_start_text.default = list[1][3]
     form.monday_switch_text.default = list[1][4]
 
-    form.tuesday_start_time.default = list[2][0]
-    form.tuesday_switch_time.default = list[2][1]
-    form.tuesday_end_time.default = list[2][2]
+    set_time_default(form.tuesday_start_time, list[2][0])
+    set_time_default(form.tuesday_start_time, list[2][1])
+    set_time_default(form.tuesday_start_time, list[2][2])
     form.tuesday_start_text.default = list[2][3]
     form.tuesday_switch_text.default = list[2][4]
 
-    form.wednesday_start_time.default = list[3][0]
-    form.wednesday_switch_time.default = list[3][1]
-    form.wednesday_end_time.default = list[3][2]
+    set_time_default(form.wednesday_start_time, list[3][0])
+    set_time_default(form.wednesday_start_time, list[3][1])
+    set_time_default(form.wednesday_start_time, list[3][2])
     form.wednesday_start_text.default = list[3][3]
     form.wednesday_switch_text.default = list[3][4]
 
-    form.thursday_start_time.default = list[4][0]
-    form.thursday_switch_time.default = list[4][1]
-    form.thursday_end_time.default = list[4][2]
+    set_time_default(form.thursday_start_time, list[4][0])
+    set_time_default(form.thursday_start_time, list[4][1])
+    set_time_default(form.thursday_start_time, list[4][2])
     form.thursday_start_text.default = list[4][3]
     form.thursday_switch_text.default = list[4][4]
 
-    form.friday_start_time.default = list[5][0]
-    form.friday_switch_time.default = list[5][1]
-    form.friday_end_time.default = list[5][2]
+    set_time_default(form.friday_start_time, list[5][0])
+    set_time_default(form.friday_start_time, list[5][1])
+    set_time_default(form.friday_start_time, list[5][2])
     form.friday_start_text.default = list[5][3]
     form.friday_switch_text.default = list[5][4]
 
-    form.saturday_start_time.default = list[6][0]
-    form.saturday_switch_time.default = list[6][1]
-    form.saturday_end_time.default = list[6][2]
+    set_time_default(form.saturday_start_time, list[6][0])
+    set_time_default(form.saturday_start_time, list[6][1])
+    set_time_default(form.saturday_start_time, list[6][2])
     form.saturday_start_text.default = list[6][3]
     form.saturday_switch_text.default = list[6][4]
 
@@ -125,76 +133,95 @@ def return_list_of_entries_as_lists(db_list):
     return returned_list
 
 def return_form_data_as_list_of_dict(form):
+    
+    def check_is_not_none(form_entry):
+        if form_entry is None:
+            return False
+        else:
+            return True
+    
+    def set_entry_time(form_entry, dictionary, key):
+        if check_is_not_none(form_entry):
+            dictionary[key] = form_entry.strftime('%H:%M')
+        else:
+            dictionary[key] = form_entry
+
     sunday_entry = {
         'id': 1,
         'day_of_the_week': 'Sunday',
-        'start_time': form.sunday_start_time.data,
-        'switch_time': form.sunday_switch_time.data,
-        'end_time': form.sunday_end_time.data,
         'start_link_text': form.sunday_start_text.data,
         'switch_link_text': form.sunday_switch_text.data
     }
 
+    set_entry_time(form.sunday_start_time.data, sunday_entry, 'start_time')
+    set_entry_time(form.sunday_switch_time.data, sunday_entry, 'switch_time')
+    set_entry_time(form.sunday_end_time.data, sunday_entry, 'end_time')
+
     monday_entry = {
         'id': 2,
         'day_of_the_week': 'Monday',
-        'start_time': form.monday_start_time.data,
-        'switch_time': form.monday_switch_time.data,
-        'end_time': form.monday_end_time.data,
         'start_link_text': form.monday_start_text.data,
         'switch_link_text': form.monday_switch_text.data
     }
 
+    set_entry_time(form.monday_start_time.data, monday_entry, 'start_time')
+    set_entry_time(form.monday_switch_time.data, monday_entry, 'switch_time')
+    set_entry_time(form.monday_end_time.data, monday_entry, 'end_time')
+
     tuesday_entry = {
         'id': 3,
         'day_of_the_week': 'Tuesday',
-        'start_time': form.tuesday_start_time.data,
-        'switch_time': form.tuesday_switch_time.data,
-        'end_time': form.tuesday_end_time.data,
         'start_link_text': form.tuesday_start_text.data,
         'switch_link_text': form.tuesday_switch_text.data
     }
 
+    set_entry_time(form.tuesday_start_time.data, tuesday_entry, 'start_time')
+    set_entry_time(form.tuesday_switch_time.data, tuesday_entry, 'switch_time')
+    set_entry_time(form.tuesday_end_time.data, tuesday_entry, 'end_time')
+
     wednesday_entry = {
         'id': 4,
         'day_of_the_week': 'Wednesday',
-        'start_time': form.wednesday_start_time.data,
-        'switch_time': form.wednesday_switch_time.data,
-        'end_time': form.wednesday_end_time.data,
         'start_link_text': form.wednesday_start_text.data,
         'switch_link_text': form.wednesday_switch_text.data
     }
 
+    set_entry_time(form.wednesday_start_time.data, wednesday_entry, 'start_time')
+    set_entry_time(form.wednesday_switch_time.data, wednesday_entry, 'switch_time')
+    set_entry_time(form.wednesday_end_time.data, wednesday_entry, 'end_time')
+
     thursday_entry = {
         'id': 5,
         'day_of_the_week': 'Thursday',
-        'start_time': form.thursday_start_time.data,
-        'switch_time': form.thursday_switch_time.data,
-        'end_time': form.thursday_end_time.data,
         'start_link_text': form.thursday_start_text.data,
         'switch_link_text': form.thursday_switch_text.data
     }
 
+    set_entry_time(form.thursday_start_time.data, thursday_entry, 'start_time')
+    set_entry_time(form.thursday_switch_time.data, thursday_entry, 'switch_time')
+    set_entry_time(form.thursday_end_time.data, thursday_entry, 'end_time')
+
     friday_entry = {
         'id': 6,
         'day_of_the_week': 'Friday',
-        'start_time': form.friday_start_time.data,
-        'switch_time': form.friday_switch_time.data,
-        'end_time': form.friday_end_time.data,
         'start_link_text': form.friday_start_text.data,
         'switch_link_text': form.friday_switch_text.data
     }
 
+    set_entry_time(form.friday_start_time.data, friday_entry, 'start_time')
+    set_entry_time(form.friday_switch_time.data, friday_entry, 'switch_time')
+    set_entry_time(form.friday_end_time.data, friday_entry, 'end_time')
+
     saturday_entry = {
         'id': 7,
         'day_of_the_week': 'Saturday',
-        'start_time': form.saturday_start_time.data,
-        'switch_time': form.saturday_switch_time.data,
-        'end_time': form.saturday_end_time.data,
         'start_link_text': form.saturday_start_text.data,
         'switch_link_text': form.saturday_switch_text.data
     }
 
+    set_entry_time(form.saturday_start_time.data, saturday_entry, 'start_time')
+    set_entry_time(form.saturday_switch_time.data, saturday_entry, 'switch_time')
+    set_entry_time(form.saturday_end_time.data, saturday_entry, 'end_time')
 
     entry_list = [sunday_entry, monday_entry, tuesday_entry, wednesday_entry, thursday_entry, friday_entry, saturday_entry]
     return entry_list

@@ -3,38 +3,40 @@ import forms
 import datetime
 
 def convert_time_to_list(time):
-    if type(time) == 'None':
+    if time is None:
         return ['','']
-    if time == '':
+    elif time == '':
         return ['','']
-    if time[len(time)-2:] != 'pm' or time[len(time)-2:] != 'am':
-        if time[len(time)-1] == 'a' or time[len(time)-1] == 'p':
-            time = time + 'm'
-    if time[len(time)-3] != ' ':
-        temp_time = time
-        time = temp_time[0:len(temp_time)-2] + ' ' + temp_time[len(temp_time)-2:len(temp_time)]
-    timeList = []
-    colonSplit = time.split(':')
-    timeList.append(int(colonSplit[0]))
-    spaceSplit = colonSplit[1].split(' ')
-    if spaceSplit[1] == 'AM' or spaceSplit[1] == 'am' and timeList[0] == 12:
-        timeList[0] = 0
-    timeList.append(int(spaceSplit[0]))
-    if (spaceSplit[1] == 'PM' or spaceSplit[1] == 'pm' and timeList[0] != 12):
-        timeList[0] = int(timeList[0]) + 12
-    return timeList
-
-def convert_time_list_to_string(list):
-    temp_string = ''
-    for item in list:
-        temp_string += str(item)
-    return temp_string
+    else:
+        time_split = time.split(':')
+        time_list = [time_split[0], time_split[1]]
+        return time_list
+    """
+    Old function, don't want to delete yet
+    """
+    
+    # if time[len(time)-2:] != 'pm' or time[len(time)-2:] != 'am':
+    #     if time[len(time)-1] == 'a' or time[len(time)-1] == 'p':
+    #         time = time + 'm'
+    # if time[len(time)-3] != ' ':
+    #     temp_time = time
+    #     time = temp_time[0:len(temp_time)-2] + ' ' + temp_time[len(temp_time)-2:len(temp_time)]
+    # timeList = []
+    # colonSplit = time.split(':')
+    # timeList.append(int(colonSplit[0]))
+    # spaceSplit = colonSplit[1].split(' ')
+    # if spaceSplit[1] == 'AM' or spaceSplit[1] == 'am' and timeList[0] == 12:
+    #     timeList[0] = 0
+    # timeList.append(int(spaceSplit[0]))
+    # if (spaceSplit[1] == 'PM' or spaceSplit[1] == 'pm' and timeList[0] != 12):
+    #     timeList[0] = int(timeList[0]) + 12
+    
+    
 
 def update_crontab(database):
-
     some_list = forms.return_list_of_entries_as_lists(database)
     
-    cron = CronTab(user='pi') # access crontab for user pi
+    cron = CronTab(user='britchie') # access crontab for user pi
     cron.remove_all() # remove all previous cron jobs
 
     # Create command variables
@@ -78,7 +80,7 @@ def update_crontab(database):
             day_of_the_week_int = 6
 
         # Outputting 'on' cron job
-        if (type(list[0]) != 'None' and list[0] != ''):
+        if (list[0] is not None and list[0] != ['', '']):
             time_as_list = convert_time_to_list(list[0])
             new_cron_job = cron.new(command = on_command)
             new_cron_job.dow.on(day_of_the_week_int)
@@ -86,7 +88,7 @@ def update_crontab(database):
             new_cron_job.minute.on(time_as_list[1])
 
         # Outputting 'switch' cron job
-        if (type(list[1]) != 'None' and list[1] != ''):
+        if (list[1] is not None and list[1] != ['', '']):
             time_as_list = convert_time_to_list(list[1])
             new_cron_job_1 = cron.new(command = switch_command_1)
             new_cron_job_1.dow.on(day_of_the_week_int)
@@ -99,7 +101,7 @@ def update_crontab(database):
             new_cron_job_2.minute.on(int(time_as_list[1]) + 1)
 
         # Oututting 'off' cron job
-        if (type(list[2]) != 'None' and list[2] != ''):
+        if (list[2] is not None and list[2] != ['', '']):
             time_as_list = convert_time_to_list(list[2])
             new_cron_job = cron.new(command = off_command)
             new_cron_job.dow.on(day_of_the_week_int)
@@ -151,5 +153,7 @@ def assign_display_text(state, db_list):
             display_text = some_list[6][4]
         elif day_of_the_week == 6:
             display_text = some_list[0][4]
+
     print_with_time('Display link text is: ' + display_text)
+
     return display_text

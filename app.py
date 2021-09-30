@@ -19,6 +19,7 @@ app_login_manager.init_app(app)
 import models
 import forms
 import utilities # for updating crotab
+
 """
 Routes
 """
@@ -51,18 +52,18 @@ def index():
 def home():
     crontab_form = forms.CrontabForm() # form instance
     
-
     try:
         if 'sunday_start_time' in request.form:
             if crontab_form.submit.data:
                 entry_list = forms.return_form_data_as_list_of_dict(crontab_form) # created as dictionaries of the form data making it easier to deal with
+                display_entry_model = db.session.query(models.DisplayEntry).order_by(models.DisplayEntry.id).all()
                 try:
                     i = 1
                     for entry in entry_list:
-                        forms.update_display_entry(db.session.query(models.DisplayEntry).order_by(models.DisplayEntry.id).all(), entry, i) # update each entry in the DisplayEntry table with the entries from created dictionaries
+                        forms.update_display_entry(display_entry_model, entry, i) # update each entry in the DisplayEntry table with the entries from created dictionaries
                         i += 1
                     db.session.commit()
-                    utilities.update_crontab(db.session.query(models.DisplayEntry).order_by(models.DisplayEntry.id).all())
+                    utilities.update_crontab(display_entry_model)
                     flash('The display has been updated.')
                 except Exception as e:
                     db.session.rollback()

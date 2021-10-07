@@ -1,6 +1,7 @@
 from crontab import CronTab
 import forms
 import datetime
+import os
 
 def convert_time_to_list(time):
     if time is None:
@@ -30,8 +31,6 @@ def convert_time_to_list(time):
     # timeList.append(int(spaceSplit[0]))
     # if (spaceSplit[1] == 'PM' or spaceSplit[1] == 'pm' and timeList[0] != 12):
     #     timeList[0] = int(timeList[0]) + 12
-    
-    
 
 def update_crontab(database):
     some_list = forms.return_list_of_entries_as_lists(database)
@@ -157,3 +156,15 @@ def assign_display_text(state, db_list):
     print_with_time('Display link text is: ' + display_text)
 
     return display_text
+
+def shutdown_pi():
+    os.system("sudo shutdown -h now")
+
+def reboot_pi():
+    os.system("sudo reboot")
+
+def power_display():
+    os.system("echo 'on 0.0.0.0' | cec-client -s -d 1")
+
+def shutdown_display():
+    os.system("echo 'standby 0.0.0.0' | cec-client -s -d 1")

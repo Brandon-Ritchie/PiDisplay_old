@@ -50,9 +50,23 @@ def index():
 @app.route('/home', methods = ["GET", "POST"])
 @login_required
 def home():
-    crontab_form = forms.CrontabForm() # form instance
+    crontab_form = forms.CrontabForm() # crontab form instance
     
+    hardware_form = forms.HardwareControlForm()
+
     try:
+        if hardware_form.shutdown_pi_button.data:
+            utilities.shutdown_pi()
+
+        if hardware_form.reboot_pi_button.data:
+            utilities.reboot_pi()
+
+        if hardware_form.power_display_button.data:
+            utilities.power_display()
+        
+        if hardware_form.shutdown_display_button.data:
+            utilities.shutdown_display()
+
         if 'sunday_start_time' in request.form:
             if crontab_form.submit.data:
                 entry_list = forms.return_form_data_as_list_of_dict(crontab_form) # created as dictionaries of the form data making it easier to deal with
@@ -84,7 +98,8 @@ def home():
     forms.update_crontab_form_defaults(crontab_form, display_entry_list_as_lists)
 
     return render_template('home.html',
-        template_form = crontab_form,
+        template_crontab_form = crontab_form,
+        template_hardware_form = hardware_form
     )
 
 """

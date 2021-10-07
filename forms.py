@@ -5,6 +5,8 @@ from wtforms.validators import DataRequired
 from app import db
 import datetime
 
+from utilities import power_display, shutdown_display, shutdown_pi
+
 class CrontabForm(FlaskForm):
     # Create all TimeField variables
     sunday_start_time = TimeField('Sunday Start Time', format='%H:%M')
@@ -234,6 +236,12 @@ def update_display_entry(db_list, entry, id):
             item.end_time = entry['end_time'] # update end time
             item.start_link_text = entry['start_link_text'] # update start link text
             item.switch_link_text = entry['switch_link_text'] # update switch link text
+
+class HardwareControlForm(FlaskForm):
+    shutdown_pi_button = SubmitField('Shutdown Pi')
+    reboot_pi_button = SubmitField('Reboot Pi')
+    power_display_button = SubmitField('Power Display')
+    shutdown_display_button = SubmitField('Shutdown Display')
 
 class LoginForm(FlaskForm):
     user = StringField('Username', validators=[DataRequired()])

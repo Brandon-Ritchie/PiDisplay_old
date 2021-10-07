@@ -18,67 +18,75 @@
         <![endif]-->
         <h1>Pi Scheduler</h1>
         <form action='/home' method='POST'>
+            <div id='hardware-container'>
+                <p class='hardware-button' id='shutdown-pi-button'>{{ template_hardware_form.shutdown_pi_button() }}</p>
+                <p class='hardware-button' id='reboot-pi-button'>{{ template_hardware_form.reboot_pi_button() }}</p>
+                <p class='hardware-button' id='power-display-button'>{{ template_hardware_form.power_display_button() }}</p>
+                <p class='hardware-button' id='shutdown-display-button'>{{ template_hardware_form.shutdown_display_button() }}</p>
+            </div>
+        </form>
+        <form action='/home' method='POST'>
             <div id='time-container'>
                 <h3 class='time-header-row start-time'>Start Time</h2>
                 <h3 class='time-header-row switch-time'>Switch Time</h2>
                 <h3 class='time-header-row end-time'>End Time</h2>
                 <h3 class='sunday-time-row time-label'>Sunday</h3>
-                <p class='sunday-time-row start-time'>{{ template_form.sunday_start_time() }}</p>
-                <p class='sunday-time-row switch-time'>{{ template_form.sunday_switch_time() }}</p>
-                <p class='sunday-time-row end-time'>{{ template_form.sunday_end_time () }}</p>
+                <p class='sunday-time-row start-time'>{{ template_crontab_form.sunday_start_time() }}</p>
+                <p class='sunday-time-row switch-time'>{{ template_crontab_form.sunday_switch_time() }}</p>
+                <p class='sunday-time-row end-time'>{{ template_crontab_form.sunday_end_time () }}</p>
                 <h3 class='monday-time-row time-label'>Monday</h3>
-                <p class='monday-time-row start-time'>{{ template_form.monday_start_time() }}</p>
-                <p class='monday-time-row switch-time'>{{ template_form.monday_switch_time() }}</p>
-                <p class='monday-time-row end-time'>{{ template_form.monday_end_time () }}</p>
+                <p class='monday-time-row start-time'>{{ template_crontab_form.monday_start_time() }}</p>
+                <p class='monday-time-row switch-time'>{{ template_crontab_form.monday_switch_time() }}</p>
+                <p class='monday-time-row end-time'>{{ template_crontab_form.monday_end_time () }}</p>
                 <h3 class='tuesday-time-row time-label'>Tuesday</h3>
-                <p class='tuesday-time-row start-time'>{{ template_form.tuesday_start_time() }}</p>
-                <p class='tuesday-time-row switch-time'>{{ template_form.tuesday_switch_time() }}</p>
-                <p class='tuesday-time-row end-time'>{{ template_form.tuesday_end_time () }}</p>
+                <p class='tuesday-time-row start-time'>{{ template_crontab_form.tuesday_start_time() }}</p>
+                <p class='tuesday-time-row switch-time'>{{ template_crontab_form.tuesday_switch_time() }}</p>
+                <p class='tuesday-time-row end-time'>{{ template_crontab_form.tuesday_end_time () }}</p>
                 <h3 class='wednesday-time-row time-label'>Wednesday</h3>
-                <p class='wednesday-time-row start-time'>{{ template_form.wednesday_start_time() }}</p>
-                <p class='wednesday-time-row switch-time'>{{ template_form.wednesday_switch_time() }}</p>
-                <p class='wednesday-time-row end-time'>{{ template_form.wednesday_end_time () }}</p>
+                <p class='wednesday-time-row start-time'>{{ template_crontab_form.wednesday_start_time() }}</p>
+                <p class='wednesday-time-row switch-time'>{{ template_crontab_form.wednesday_switch_time() }}</p>
+                <p class='wednesday-time-row end-time'>{{ template_crontab_form.wednesday_end_time () }}</p>
                 <h3 class='thursday-time-row time-label'>Thursday</h3>
-                <p class='thursday-time-row start-time'>{{ template_form.thursday_start_time() }}</p>
-                <p class='thursday-time-row switch-time'>{{ template_form.thursday_switch_time() }}</p>
-                <p class='thursday-time-row end-time'>{{ template_form.thursday_end_time () }}</p>
+                <p class='thursday-time-row start-time'>{{ template_crontab_form.thursday_start_time() }}</p>
+                <p class='thursday-time-row switch-time'>{{ template_crontab_form.thursday_switch_time() }}</p>
+                <p class='thursday-time-row end-time'>{{ template_crontab_form.thursday_end_time () }}</p>
                 <h3 class='friday-time-row time-label'>Friday</h3>
-                <p class='friday-time-row start-time'>{{ template_form.friday_start_time() }}</p>
-                <p class='friday-time-row switch-time'>{{ template_form.friday_switch_time() }}</p>
-                <p class='friday-time-row end-time'>{{ template_form.friday_end_time () }}</p>
+                <p class='friday-time-row start-time'>{{ template_crontab_form.friday_start_time() }}</p>
+                <p class='friday-time-row switch-time'>{{ template_crontab_form.friday_switch_time() }}</p>
+                <p class='friday-time-row end-time'>{{ template_crontab_form.friday_end_time () }}</p>
                 <h3 class='saturday-time-row time-label'>Saturday</h3>
-                <p class='saturday-time-row start-time'>{{ template_form.saturday_start_time() }}</p>
-                <p class='saturday-time-row switch-time'>{{ template_form.saturday_switch_time() }}</p>
-                <p class='saturday-time-row end-time'>{{ template_form.saturday_end_time () }}</p>
+                <p class='saturday-time-row start-time'>{{ template_crontab_form.saturday_start_time() }}</p>
+                <p class='saturday-time-row switch-time'>{{ template_crontab_form.saturday_switch_time() }}</p>
+                <p class='saturday-time-row end-time'>{{ template_crontab_form.saturday_end_time () }}</p>
             </div>
             <div id="link-text-container">
                 <h3 class='link-header-row start-text'>Start Link Text</h3>
                 <h3 class='link-header-row switch-text'>Switch Link Text</h3>
                 <h3 class='sunday-link-row link-label'>Sunday</h3>
-                <p class='sunday-link-row start-text'>{{ template_form.sunday_start_text() }}</p>
-                <p class='sunday-link-row switch-text'>{{ template_form.sunday_switch_text() }}</p>
+                <p class='sunday-link-row start-text'>{{ template_crontab_form.sunday_start_text() }}</p>
+                <p class='sunday-link-row switch-text'>{{ template_crontab_form.sunday_switch_text() }}</p>
                 <h3 class='monday-link-row link-label'>Monday</h3>
-                <p class='monday-link-row start-text'>{{ template_form.monday_start_text() }}</p>
-                <p class='monday-link-row switch-text'>{{ template_form.monday_switch_text() }}</p>
+                <p class='monday-link-row start-text'>{{ template_crontab_form.monday_start_text() }}</p>
+                <p class='monday-link-row switch-text'>{{ template_crontab_form.monday_switch_text() }}</p>
                 <h3 class='tuesday-link-row link-label'>Tuesday</h3>
-                <p class='tuesday-link-row start-text'>{{ template_form.tuesday_start_text() }}</p>
-                <p class='tuesday-link-row switch-text'>{{ template_form.tuesday_switch_text() }}</p>
+                <p class='tuesday-link-row start-text'>{{ template_crontab_form.tuesday_start_text() }}</p>
+                <p class='tuesday-link-row switch-text'>{{ template_crontab_form.tuesday_switch_text() }}</p>
                 <h3 class='wednesday-link-row link-label'>Wednesday</h3>
-                <p class='wednesday-link-row start-text'>{{ template_form.wednesday_start_text() }}</p>
-                <p class='wednesday-link-row switch-text'>{{ template_form.wednesday_switch_text() }}</p>
+                <p class='wednesday-link-row start-text'>{{ template_crontab_form.wednesday_start_text() }}</p>
+                <p class='wednesday-link-row switch-text'>{{ template_crontab_form.wednesday_switch_text() }}</p>
                 <h3 class='thursday-link-row link-label'>Thursday</h3>
-                <p class='thursday-link-row start-text'>{{ template_form.thursday_start_text() }}</p>
-                <p class='thursday-link-row switch-text'>{{ template_form.thursday_switch_text() }}</p>
+                <p class='thursday-link-row start-text'>{{ template_crontab_form.thursday_start_text() }}</p>
+                <p class='thursday-link-row switch-text'>{{ template_crontab_form.thursday_switch_text() }}</p>
                 <h3 class='friday-link-row link-label'>Friday</h3>
-                <p class='friday-link-row start-text'>{{ template_form.friday_start_text() }}</p>
-                <p class='friday-link-row switch-text'>{{ template_form.friday_switch_text() }}</p>
+                <p class='friday-link-row start-text'>{{ template_crontab_form.friday_start_text() }}</p>
+                <p class='friday-link-row switch-text'>{{ template_crontab_form.friday_switch_text() }}</p>
                 <h3 class='saturday-link-row link-label'>Saturday</h3>
-                <p class='saturday-link-row start-text'>{{ template_form.saturday_start_text() }}</p>
-                <p class='saturday-link-row switch-text'>{{ template_form.saturday_switch_text() }}</p>
+                <p class='saturday-link-row start-text'>{{ template_crontab_form.saturday_start_text() }}</p>
+                <p class='saturday-link-row switch-text'>{{ template_crontab_form.saturday_switch_text() }}</p>
             </div>
             <div id = 'submit-container'>
-                <p id='cancel-button'>{{ template_form.cancel() }}</p>
-                <p id='submit-button'>{{ template_form.submit() }}</p>
+                <p id='cancel-button'>{{ template_crontab_form.cancel() }}</p>
+                <p id='submit-button'>{{ template_crontab_form.submit() }}</p>
             </div>
         </form>
         <div>

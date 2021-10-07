@@ -6,6 +6,31 @@ body {
     display: grid;
 }
 
+/* Hardware Control */
+
+#hardware-container {
+    display: grid;
+    grid-template-columns: repeat(4, 10rem);
+}
+
+#shutdown-pi-button {
+    grid-column: 1 / 2;
+}
+
+#reboot-pi-button {
+    grid-column: 2 / 3;
+}
+
+#power-display-button {
+    grid-column: 3 / 4;
+}
+
+#shutdown-display-button {
+    grid-column: 4 / 5;
+}
+
+/* Time Schedule */
+
 #time-container {
     display: grid;
     grid-template: repeat(8, 2rem) / 9rem repeat(3, 11.5rem);
@@ -58,6 +83,8 @@ body {
 .end-time {
     grid-column: 4 / 5;
 }
+
+/* Link Text */
 
 #link-text-container {
     display: grid;

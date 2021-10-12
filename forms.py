@@ -79,38 +79,38 @@ def update_crontab_form_defaults(form, list):
     form.sunday_switch_text.default = list[0][4]
 
     set_time_default(form.monday_start_time, list[1][0])
-    set_time_default(form.monday_start_time, list[1][1])
-    set_time_default(form.monday_start_time, list[1][2])
+    set_time_default(form.monday_switch_time, list[1][1])
+    set_time_default(form.monday_end_time, list[1][2])
     form.monday_start_text.default = list[1][3]
     form.monday_switch_text.default = list[1][4]
 
     set_time_default(form.tuesday_start_time, list[2][0])
-    set_time_default(form.tuesday_start_time, list[2][1])
-    set_time_default(form.tuesday_start_time, list[2][2])
+    set_time_default(form.tuesday_switch_time, list[2][1])
+    set_time_default(form.tuesday_end_time, list[2][2])
     form.tuesday_start_text.default = list[2][3]
     form.tuesday_switch_text.default = list[2][4]
 
     set_time_default(form.wednesday_start_time, list[3][0])
-    set_time_default(form.wednesday_start_time, list[3][1])
-    set_time_default(form.wednesday_start_time, list[3][2])
+    set_time_default(form.wednesday_switch_time, list[3][1])
+    set_time_default(form.wednesday_end_time, list[3][2])
     form.wednesday_start_text.default = list[3][3]
     form.wednesday_switch_text.default = list[3][4]
 
     set_time_default(form.thursday_start_time, list[4][0])
-    set_time_default(form.thursday_start_time, list[4][1])
-    set_time_default(form.thursday_start_time, list[4][2])
+    set_time_default(form.thursday_switch_time, list[4][1])
+    set_time_default(form.thursday_end_time, list[4][2])
     form.thursday_start_text.default = list[4][3]
     form.thursday_switch_text.default = list[4][4]
 
     set_time_default(form.friday_start_time, list[5][0])
-    set_time_default(form.friday_start_time, list[5][1])
-    set_time_default(form.friday_start_time, list[5][2])
+    set_time_default(form.friday_switch_time, list[5][1])
+    set_time_default(form.friday_end_time, list[5][2])
     form.friday_start_text.default = list[5][3]
     form.friday_switch_text.default = list[5][4]
 
     set_time_default(form.saturday_start_time, list[6][0])
-    set_time_default(form.saturday_start_time, list[6][1])
-    set_time_default(form.saturday_start_time, list[6][2])
+    set_time_default(form.saturday_switch_time, list[6][1])
+    set_time_default(form.saturday_end_time, list[6][2])
     form.saturday_start_text.default = list[6][3]
     form.saturday_switch_text.default = list[6][4]
 

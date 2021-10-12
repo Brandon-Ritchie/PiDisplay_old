@@ -12,25 +12,6 @@ def convert_time_to_list(time):
         time_split = time.split(':')
         time_list = [time_split[0], time_split[1]]
         return time_list
-    """
-    Old function, don't want to delete yet
-    """
-    
-    # if time[len(time)-2:] != 'pm' or time[len(time)-2:] != 'am':
-    #     if time[len(time)-1] == 'a' or time[len(time)-1] == 'p':
-    #         time = time + 'm'
-    # if time[len(time)-3] != ' ':
-    #     temp_time = time
-    #     time = temp_time[0:len(temp_time)-2] + ' ' + temp_time[len(temp_time)-2:len(temp_time)]
-    # timeList = []
-    # colonSplit = time.split(':')
-    # timeList.append(int(colonSplit[0]))
-    # spaceSplit = colonSplit[1].split(' ')
-    # if spaceSplit[1] == 'AM' or spaceSplit[1] == 'am' and timeList[0] == 12:
-    #     timeList[0] = 0
-    # timeList.append(int(spaceSplit[0]))
-    # if (spaceSplit[1] == 'PM' or spaceSplit[1] == 'pm' and timeList[0] != 12):
-    #     timeList[0] = int(timeList[0]) + 12
 
 def update_crontab(database):
     some_list = forms.return_list_of_entries_as_lists(database)

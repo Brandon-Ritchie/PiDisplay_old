@@ -5,8 +5,6 @@ from wtforms.validators import DataRequired
 from app import db
 import datetime
 
-from utilities import power_display, shutdown_display, shutdown_pi
-
 class CrontabForm(FlaskForm):
     # Create all TimeField variables
     sunday_start_time = TimeField('Sunday Start Time', format='%H:%M')

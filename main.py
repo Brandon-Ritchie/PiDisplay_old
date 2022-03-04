@@ -27,6 +27,9 @@ if __name__ == "__main__":
         "excludeSwitches", ["enable-automation"]
     )  # disable automation warning
     chromeoptions.add_experimental_option(
+        "detach", True
+    )
+    chromeoptions.add_experimental_option(
         "useAutomationExtension", False
     )  # disable automation warning
     driver = webdriver.Chrome(
